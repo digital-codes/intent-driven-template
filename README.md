@@ -1,7 +1,7 @@
 # Intent-Driven Template
 
-This is a template project for intent-driven software delivery with OpenSpec,
-OpenCode, and reusable engineering skills.
+This is a template project for intent-driven software delivery with [OpenSpec](https://github.com/Fission-AI/OpenSpec),
+[OpenCode](https://opencode.ai/), and reusable engineering skills.
 
 It is intended for teams that want changes to start from clear intent, move
 through explicit behaviour and design artifacts, and finish with implementation
