@@ -13,6 +13,21 @@ Read the full walkthrough: [Spec-Driven Development with OpenSpec and OpenCode](
 
 [![Spec-Driven Development with OpenSpec and OpenCode](https://img.youtube.com/vi/M3dp9u1wZes/maxresdefault.jpg)](https://www.youtube.com/watch?v=M3dp9u1wZes)
 
+## How To Use This Template
+
+### Start A New Project From This Template
+
+Clone this repository, open it with OpenCode, and start working from the bundled
+OpenSpec configuration, commands, skills, and schema.
+
+### Add This Template To An Existing Project
+
+Open your existing project with OpenCode and ask it to install the template:
+
+```text
+Read and understand INSTALL_TEMPLATE.md and follow the instructions there.
+```
+
 ## What This Template Uses
 
 - OpenSpec for setup, proposal, specification, design, ADR, and task artifacts.
