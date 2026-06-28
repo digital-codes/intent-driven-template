@@ -13,6 +13,8 @@ Read the full walkthrough: [Spec-Driven Development with OpenSpec and OpenCode](
 
 [![Spec-Driven Development with OpenSpec and OpenCode](https://img.youtube.com/vi/M3dp9u1wZes/maxresdefault.jpg)](https://www.youtube.com/watch?v=M3dp9u1wZes)
 
+[![Spec-Driven Development Multi-Model Adversarial Authoring and Glossary with OpenCode and OpenSpec](https://img.youtube.com/vi/2V78VVJ1sa0/maxresdefault.jpg)](https://www.youtube.com/watch?v=2V78VVJ1sa0)
+
 ## How To Use This Template
 
 ### Start A New Project From This Template
@@ -82,3 +84,29 @@ To validate it, run:
 ```bash
 openspec schema validate intent-driven
 ```
+
+## Skills
+
+Standard OpenSpec lifecycle skills in `.opencode/skills/` — names are self-explanatory:
+`openspec-new-change`, `openspec-propose`, `openspec-continue-change`, `openspec-explore`,
+`openspec-apply-change`, `openspec-verify-change`, `openspec-sync-specs`, `openspec-archive-change`
+
+| Skill | Location | Purpose |
+|-------|----------|---------|
+| `openspec-bulk-apply-change` | `.opencode/skills/` | Applies multiple active changes concurrently in isolated worktrees with parallel verification. |
+| `adversarial-authoring` | `.opencode/skills/` | Runs author and reviewer agents in sequence to reduce single-perspective bias in drafts. |
+| `grill-me` | `.agents/skills/` | Interrogates plans and designs with probing questions to surface hidden assumptions. |
+| `c4-diagrams` | `.agents/skills/` | Visualises system architecture using C4 model levels in ASCII or Mermaid. |
+| `architectural-decision-records` | `.agents/skills/` | Captures architectural decisions with rationale, tradeoffs, and supersession chains. |
+| `gherkin-authoring` | `.agents/skills/` | Drafts and improves Gherkin scenarios for observable, domain-language behaviour. |
+| `glossary` | `.agents/skills/` | Maintains consistent business and technical terminology across all specification artifacts. |
+| `openspec-git-discipline` | `.agents/skills/` | Enforces that proposals reach `main` before apply, and implementation merges before archive. |
+
+## Agents
+
+Specialist agents used within skills, in `.opencode/agent/`:
+
+| Agent | Purpose |
+|-------|---------|
+| `adversarial-author` | Writes an initial draft of a specification artifact or design document. |
+| `adversarial-reviewer` | Reviews the author's draft with challenges and improvement suggestions. |
