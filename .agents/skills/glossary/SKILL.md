@@ -49,6 +49,12 @@ Do you want to use one of these existing terms, or define a new term?
 
 Do not proceed with a new term until the user answers, unless no plausible existing term exists.
 
+## Marking Terms in Artifacts
+
+In non-glossary artifacts, such as proposals, designs, specs, ADRs, and tasks, bold glossary terms that appear in the artifact's companion glossary reference.
+
+Apply bolding in prose only. Do not bold terms in code blocks, frontmatter, links, or places where markdown formatting would make the artifact harder to read.
+
 ## Companion Reference
 
 Every authored or edited non-glossary artifact gets a companion file in the same directory.
@@ -64,10 +70,12 @@ Format:
 ```markdown
 # Glossary Reference
 
-| Term | Context |
-| --- | --- |
-| <Term> | <Short context for how the artifact uses this glossary term.> |
+| Term | Source Glossary | Context |
+| --- | --- | --- |
+| <Term> | `glossary/business.md` | <Short context for how the artifact uses this glossary term.> |
 ```
+
+`Source Glossary` is the glossary file the term came from or was added to, such as `glossary/business.md` or `glossary/technical.md`.
 
 If no glossary terms are used, write:
 
