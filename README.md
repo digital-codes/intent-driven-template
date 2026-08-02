@@ -50,7 +50,7 @@ Read and understand INSTALL_TEMPLATE.md and follow the instructions there.
   https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md.
 - ADRs for durable architectural decisions.
 - C4 diagrams for communicating architecture boundaries and relationships.
-- Gherkin-style requirements and scenarios for observable behaviour.
+- Fenced Gherkin requirements and scenarios for observable behaviour, with optional acceptance-test runner scaffolding.
 
 The bundled OpenSpec schema is a local copy of the `intent-driven` schema from
 https://github.com/intent-driven-dev/openspec-schemas/tree/main/openspec/schemas/intent-driven.
@@ -64,7 +64,7 @@ proposal -> specs -> design -> adr -> tasks
 ```
 
 - `proposal` captures why the change matters.
-- `specs` describe observable behaviour with Gherkin-style scenarios.
+- `specs` describe observable behaviour with fenced Gherkin scenarios.
 - `design` explains the implementation approach and trade-offs.
 - `adr` records durable architectural decisions.
 - `tasks` turn the accepted intent, behaviour, design, and decisions into work.
@@ -101,8 +101,14 @@ Standard OpenSpec lifecycle skills in `.opencode/skills/` — names are self-exp
 | `c4-diagrams` | `.agents/skills/` | Visualises system architecture using C4 model levels in ASCII or Mermaid. |
 | `architectural-decision-records` | `.agents/skills/` | Captures architectural decisions with rationale, tradeoffs, and supersession chains. |
 | `gherkin-authoring` | `.agents/skills/` | Drafts and improves Gherkin scenarios for observable, domain-language behaviour. |
+| `acceptance-test-authoring` | `.agents/skills/` | Sets up and maintains acceptance tests that extract fenced Gherkin from OpenSpec Markdown specs. |
+| `bdd-zone-check` | `.agents/skills/` | Guides spec-first work and keeps specs-zone changes separate from code-zone changes. |
 | `glossary` | `.agents/skills/` | Maintains business and technical terminology and companion glossary references for specification artifacts. |
 | `openspec-git-discipline` | `.agents/skills/` | Enforces that proposals reach `main` before apply, and implementation merges before archive. |
+
+The source behavior-driven template also includes Claude Code hooks for live zone enforcement. Those hooks are intentionally not copied here; `bdd-zone-check` is guidance unless an OpenCode equivalent is wired later.
+
+The `acceptance-test-authoring` skill includes JavaScript (`cucumber-js`) and Python (`behave`) runner packs as examples. Use the pack that matches your project, adapt it to your application's startup and page-object conventions, or replace it with an equivalent runner for your preferred stack while preserving the fenced-Gherkin extraction and effective-spec behavior.
 
 ## Agents
 
