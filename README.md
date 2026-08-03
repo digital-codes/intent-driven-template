@@ -22,7 +22,7 @@ Read the full walkthrough: [SDD with Multi-Model Spec Review and Glossary](https
 
 [![Spec-Driven Development Multi-Model Adversarial Authoring and Glossary with OpenCode and OpenSpec](https://img.youtube.com/vi/2V78VVJ1sa0/maxresdefault.jpg)](https://www.youtube.com/watch?v=2V78VVJ1sa0)
 
-Read the full walkthrough: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/).
+A focused walkthrough of OpenSpec spec-as-source: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/).
 
 [![Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://img.youtube.com/vi/xoPjF-Z2Qgw/maxresdefault.jpg)](https://youtu.be/xoPjF-Z2Qgw)
 
