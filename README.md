@@ -7,6 +7,11 @@ It is intended for teams that want changes to start from clear intent, move
 through explicit behaviour and design artifacts, and finish with implementation
 tasks that preserve the reasoning behind the work.
 
+This template also makes OpenSpec spec-as-source capable: fenced Gherkin specs
+can be extracted into acceptance tests, while workflow rules keep specification
+changes and code changes separated so the OpenSpec specification remains the
+source of truth.
+
 ## Walkthrough
 
 Read the full walkthrough: [Spec-Driven Development with OpenSpec and OpenCode](https://intent-driven.dev/blog/2026/05/10/spec-driven-development-openspec-opencode/).
@@ -16,6 +21,10 @@ Read the full walkthrough: [Spec-Driven Development with OpenSpec and OpenCode](
 Read the full walkthrough: [SDD with Multi-Model Spec Review and Glossary](https://intent-driven.dev/blog/2026/06/27/sdd-adversarial-authoring-glossary/)
 
 [![Spec-Driven Development Multi-Model Adversarial Authoring and Glossary with OpenCode and OpenSpec](https://img.youtube.com/vi/2V78VVJ1sa0/maxresdefault.jpg)](https://www.youtube.com/watch?v=2V78VVJ1sa0)
+
+Read the full walkthrough: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/).
+
+[![Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://img.youtube.com/vi/xoPjF-Z2Qgw/maxresdefault.jpg)](https://youtu.be/xoPjF-Z2Qgw)
 
 ## How To Use This Template
 

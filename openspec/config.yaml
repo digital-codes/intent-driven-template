@@ -8,9 +8,11 @@ schema: intent-driven
 rules:
   proposal:
     - Must use grill-me skill
+    # - Must use adversaril-authoring skill
+    # - Must use glossary skill
   design:
     - Must use c4-diagrams skill
   adr:
     - Must use architectural-decision-records skill
-  spec:
+  specs:
     - Must use gherkin-authoring skill 
