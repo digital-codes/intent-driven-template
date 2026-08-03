@@ -21,7 +21,7 @@ artifacts:
 
       - **Capabilities**: Identify which behaviour specs will be created or modified:
         - **New Capabilities**: List capabilities being introduced. Each becomes a new `specs/<name>/spec.md`. Use kebab-case names (e.g., `user-auth`, `data-export`).
-        - **Modified Capabilities**: List existing capabilities whose behaviour is changing. Only include if spec-level behaviour changes, not just implementation details. Each needs an OpenSpec Markdown delta file at `specs/<name>/spec.md`. Check `openspec/specs/` for existing spec names. Leave empty if no behaviour changes.
+        - **Modified Capabilities**: List existing capabilities whose behaviour is changing. Only include if spec-level behaviour changes, not just implementation details. Each needs a fenced-Gherkin delta file at `specs/<name>/spec.md`. Check `openspec/specs/` for existing spec names. Leave empty if no behaviour changes.
       - **Impact**: Affected code, APIs, dependencies, or systems.
 
 
@@ -42,15 +42,17 @@ artifacts:
     requires: []
   - id: specs
     generates: "specs/**/spec.md"
-    description: OpenSpec Markdown specs with fenced Gherkin behaviour scenarios
+    description: Markdown spec files whose behaviour scenarios live only in fenced Gherkin
     template: spec.md
     instruction: |
       Create `spec.md` spec files that define WHAT the system should do.
 
       Create one `spec.md` per capability listed in the proposal's Capabilities
-      section. A spec is a standard Markdown document: prose (context,
-      rationale, links) may appear anywhere, and all executable Gherkin lives
-      inside fenced code blocks.
+      section. A spec is a Markdown wrapper around fenced Gherkin: prose
+      (context, rationale, links) may appear outside fences, but requirements,
+      scenarios, and delta operations are authored only inside fenced Gherkin.
+      Do not duplicate requirements or scenarios as plain Markdown delta,
+      requirement, or scenario heading sections.
 
       Paths:
       - New capabilities: use the exact kebab-case name from the proposal
