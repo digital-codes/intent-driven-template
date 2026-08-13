@@ -24,7 +24,7 @@ Resolve it in this order:
 2. If absent and `acceptance-tests/` already exists, infer it from contents: `cucumber.cjs` means `javascript`, `behave.ini` means `python`; offer to record it.
 3. Otherwise ask. Never guess silently, and never scaffold a runner without a recorded value.
 
-Adding `stack:` is a specs-zone edit under `openspec/`, so commit or stash code-zone work first. See `bdd-zone-check`.
+When `spec-as-source` is active, adding `stack:` is a specs-zone edit under `openspec/`; follow that skill's mandatory BDD zone rules before editing it.
 
 ## Reference Files
 
