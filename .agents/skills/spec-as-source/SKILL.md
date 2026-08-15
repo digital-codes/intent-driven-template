@@ -21,8 +21,12 @@ Once active, the BDD zone rules below are mandatory. Do not activate or disable 
 
 ## Artifact References
 
-- Draft each `spec.md` from [references/spec.md](references/spec.md).
-- Draft `tasks.md` from [references/tasks.md](references/tasks.md), preserving acceptance-test-first ordering.
+- When this skill is active, its artifact references override the corresponding
+  templates from the configured OpenSpec schema.
+- Draft each `spec.md` from [references/spec.md](references/spec.md), not from
+  `openspec/schemas/intent-driven/templates/spec.md`.
+- Draft `tasks.md` from [references/tasks.md](references/tasks.md), not from the
+  schema task template, preserving acceptance-test-first ordering.
 
 ## BDD Zone Rules
 

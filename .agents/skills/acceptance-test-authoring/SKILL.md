@@ -5,7 +5,9 @@ description: Use when creating or modifying acceptance tests, configuring cucumb
 
 # Acceptance Test Authoring
 
-The acceptance suite executes Gherkin specs that live under `openspec/` against the running application. Specs are Markdown files named `spec.md` that hold prose plus classic Gherkin inside fenced code blocks. The runner extracts the Gherkin into real `.feature` files on every run.
+When `spec-as-source` is active, the acceptance suite executes the Gherkin specs that live under `openspec/` against the running application. Specs are Markdown files named `spec.md`: Markdown headings carry the capability, requirement, and scenario structure, while column-0 `gherkin` fences contain only Given/When/Then steps. The runner extracts them into real `.feature` files on every run, synthesizing `Feature:`/`Rule:`/`Scenario:` from the headings.
+
+This format is opt-in. Loading this skill without `spec-as-source` does not override the configured OpenSpec schema templates.
 
 Everything in this file is stack-agnostic. Tool-specific filenames, dependencies, commands, and examples live in the stack packs.
 
@@ -35,33 +37,30 @@ When `spec-as-source` is active, adding `stack:` is a specs-zone edit under `ope
 
 Each pack has a **Files to copy** table naming every destination filename and why it is load-bearing. Copy those files verbatim; they are the canonical runner.
 
-[references/gherkin-lintrc.json](references/gherkin-lintrc.json) is copied to `acceptance-tests/.gherkin-lintrc` by both stacks. Spec linting is shared, so both stacks accept and reject the same specs.
+Three files sit at the `references/` root because they are shared by both stacks:
+
+| File | Role |
+| --- | --- |
+| [EXTRACTION.md](references/EXTRACTION.md) | Normative contract for `spec.md` to `.feature` extraction |
+| [COMPOSITION.md](references/COMPOSITION.md) | Normative contract for which scenarios run |
+| [gherkin-lintrc.json](references/gherkin-lintrc.json) | Shared lint configuration copied to `acceptance-tests/.gherkin-lintrc` |
+
+The Markdown contracts are the definitions; the JavaScript and Python files are bindings. Change the relevant contract first, then both implementations.
 
 ## Spec Format And Extraction
 
-A spec is `openspec/specs/<capability>/spec.md` (source of truth) or `openspec/changes/<id>/specs/<capability>/spec.md` (delta). Markdown prose may appear anywhere; only ` ```gherkin ` fences are executable.
+When `spec-as-source` is active, draft specs from that skill's `references/spec.md`, which overrides the default schema template. A spec is `openspec/specs/<capability>/spec.md` (source of truth) or `openspec/changes/<id>/specs/<capability>/spec.md` (delta). Structure comes from Markdown headings; fences hold steps only.
 
+- `# <capability>` is the single H1 title and becomes `Feature:`.
+- `## ADDED|MODIFIED|REMOVED|RENAMED Requirements` is a delta section. The extractor emits one `# @openspec: <OP>` marker for the section.
+- `### Requirement: <name>` becomes `Rule:`. Its SHALL/MUST description remains plain prose.
+- `#### Scenario: <name>` or `#### Scenario Outline: <name>` becomes the corresponding Gherkin scenario. Each scenario must have a following gherkin fence before the next heading.
 - Fences open with ` ```gherkin ` at column 0 and close with at least as many backticks at column 0.
-- A file may hold multiple gherkin fences; concatenated in file order they must form exactly one `Feature:` document.
-- Tags stay in the same fence as, and directly above, the `Feature:` line.
-- `# @openspec:` delta markers are ordinary Gherkin comments inside a fence, immediately above their `Rule:`.
+- Fences contain only steps, `Examples:` tables, and docstrings. Gherkin structure keywords inside a fence are a hard error.
 
-Extraction writes each `spec.md` to `acceptance-tests/.extracted/<same-relative-path>/spec.feature`. Line fidelity is the core invariant: lines inside Gherkin fences are copied verbatim at their original positions; every other line becomes an empty line. The extracted file has the identical line count, so line N of the `.feature` is line N of the `.md`. Never collapse blank lines.
+Extraction writes each `spec.md` to `acceptance-tests/.extracted/<same-relative-path>/spec.feature`, preserving exactly one output line per input line. `.extracted/` is gitignored, wiped and rebuilt on every run, and never edited by hand.
 
-`.extracted/` is gitignored, wiped and rebuilt on every run, and never edited by hand. The wipe is an invariant, not an optimization.
-
-Extraction edge cases are deliberate and must match across stacks:
-
-| Case | Behavior |
-| --- | --- |
-| Unclosed fence | Error with `file:line` of the opener |
-| Zero gherkin fences in a `spec.md` | Error; a spec must contain gherkin |
-| Indented ` ```gherkin ` opener | Hard error; silently ignoring it would drop scenarios |
-| ` ```gherkin extra-text ` | Not a gherkin opener; treated as an ordinary fence |
-| Non-gherkin fences | Tracked and blanked |
-| Gherkin docstrings delimited by ` ``` ` | Safe because docstrings are indented |
-| Files other than `spec.md` | Ignored |
-| Legacy `.feature` files under `openspec/` | Never run; extraction prints a warning |
+[references/EXTRACTION.md](references/EXTRACTION.md) is the normative definition of the complete mapping, fence mechanics, edge cases, and hard errors. Read it before modifying or porting an extractor.
 
 ## Runner Invariants
 
@@ -76,34 +75,13 @@ Extraction edge cases are deliberate and must match across stacks:
 
 ## Effective-Spec Composition
 
-The procedure below is normative. Stack packs ship implementations; the implementations are not the definition.
+[references/COMPOSITION.md](references/COMPOSITION.md) is the normative definition. The important coupling with extraction is that a delta operation marker comes from a section heading and applies to every `Rule:` until the next marker, not only the first rule.
 
-1. Extract every `spec.md` under `openspec/specs/` and active `openspec/changes/*/specs/`; archive is excluded.
-2. Collect active delta feature files.
-3. Scan delta files for `# @openspec: <OP>` comments bound to the next `Rule:` line.
-4. Exclude superseded source-of-truth scenarios from the run without editing specs.
-5. Add every delta file whole.
-6. Print a composition report to stderr for every left-out scenario.
-
-Sanctioned exclusion bindings:
-
-| Binding | Use when |
-| --- | --- |
-| Line-targeted discovery | The runner filters before loading, as cucumber-js does with `spec.feature:12:19`. |
-| Pruning the extracted tree | Line selection would runtime-skip, as behave does. Blank generated `.extracted/` lines rather than editing specs. |
-
-Composition report format is identical across stacks:
-
-```text
-[effective-spec] user-signup / Rule: A signup SHALL require an email address and a password
-[effective-spec]   superseded by change: signup-email-verification
-[effective-spec]   left out: Signing up with valid details (../openspec/specs/user-signup/spec.md:12)
-[effective-spec] 1 source-of-truth scenario(s) excluded; delta versions run from openspec/changes/
-```
+The JavaScript binding excludes superseded scenarios through cucumber-js line-targeted discovery. The Python binding blanks superseded rule blocks in generated `.extracted/` files because behave line selection would report them as skipped. Neither binding edits source specs.
 
 ## Port Parity
 
-The extraction edge-cases table and the composition-report format are the contract between stacks. A change to one implementation must be mirrored in the other and re-verified. The strongest check is a cross-stack dry run on the same `openspec/` tree: the same scenario count and names.
+[references/EXTRACTION.md](references/EXTRACTION.md) and [references/COMPOSITION.md](references/COMPOSITION.md) are the contracts between stacks. A change to one implementation must be mirrored in the other and reflected in the relevant contract first. The strongest check is a cross-stack dry run on the same `openspec/` tree: the same scenario count and names.
 
 ## Linting Specs
 
