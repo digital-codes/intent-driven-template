@@ -1,11 +1,6 @@
 # Intent-Driven Template
 
-This is a template project for intent-driven software delivery with [OpenSpec](https://github.com/Fission-AI/OpenSpec),
-[OpenCode](https://opencode.ai/), and reusable engineering skills.
-
-It is intended for teams that want changes to start from clear intent, move
-through explicit behaviour and design artifacts, and finish with implementation
-tasks that preserve the reasoning behind the work.
+An [OpenSpec](https://github.com/Fission-AI/OpenSpec) and [OpenCode](https://opencode.ai/) template with the `proposal -> specs -> design -> adr -> tasks` workflow enabled, plus optional collaboration workflows for teams that choose to adopt them.
 
 ## Walkthrough
 
@@ -29,7 +24,7 @@ OpenSpec configuration, commands, skills, and schema.
 Open your existing project with OpenCode and ask it to install the template:
 
 ```text
-Read and understand INSTALL_TEMPLATE.md and follow the instructions there.
+Read and understand https://raw.githubusercontent.com/intent-driven-dev/intent-driven-template/refs/heads/main/INSTALL_TEMPLATE.md and follow the instructions there.
 ```
 
 ## What This Template Uses
@@ -71,21 +66,7 @@ proposal -> specs -> design -> adr -> tasks
 
 ## Schema
 
-This repository includes a bundled local copy of the `intent-driven` schema at
-`openspec/schemas/intent-driven/`. The upstream schema lives in
-https://github.com/intent-driven-dev/openspec-schemas/tree/main/openspec/schemas/intent-driven.
-
-To activate the schema, set this in `openspec/config.yaml`:
-
-```yaml
-schema: intent-driven
-```
-
-To validate it, run:
-
-```bash
-openspec schema validate intent-driven
-```
+`openspec/config.yaml` already selects the bundled [`intent-driven` schema](openspec/schemas/intent-driven/schema.yaml). Learn how to tailor artifact workflows in [OpenSpec Custom Schemas](https://intent-driven.dev/blog/2026/02/12/openspec-custom-schemas/).
 
 ## Skills
 
@@ -93,16 +74,36 @@ Standard OpenSpec lifecycle skills in `.opencode/skills/` — names are self-exp
 `openspec-new-change`, `openspec-propose`, `openspec-continue-change`, `openspec-explore`,
 `openspec-apply-change`, `openspec-verify-change`, `openspec-sync-specs`, `openspec-archive-change`
 
-| Skill | Location | Purpose |
-|-------|----------|---------|
-| `openspec-bulk-apply-change` | `.opencode/skills/` | Applies multiple active changes concurrently in isolated worktrees with parallel verification. |
-| `adversarial-authoring` | `.opencode/skills/` | Runs author and reviewer agents in sequence to reduce model bias in drafts. |
-| `grill-me` | `.agents/skills/` | Interrogates plans and designs with probing questions to surface hidden assumptions. |
-| `c4-diagrams` | `.agents/skills/` | Visualises system architecture using C4 model levels in ASCII or Mermaid. |
-| `architectural-decision-records` | `.agents/skills/` | Captures architectural decisions with rationale, tradeoffs, and supersession chains. |
-| `gherkin-authoring` | `.agents/skills/` | Drafts and improves Gherkin scenarios for observable, domain-language behaviour. |
-| `glossary` | `.agents/skills/` | Maintains business and technical terminology and companion glossary references for specification artifacts. |
-| `openspec-git-discipline` | `.agents/skills/` | Enforces that proposals reach `main` before apply, and implementation merges before archive. |
+| Skill | Location | Purpose | Enabled Or Updated By |
+|-------|----------|---------|-----------------------|
+| `openspec-bulk-apply-change` | `.opencode/skills/` | Applies multiple active changes concurrently in isolated worktrees with parallel verification. | Invoke directly with '/opsx:bulk-apply' command when applying multiple active openspec changes. |
+| `adversarial-authoring` | `.opencode/skills/` | Runs author and reviewer agents in sequence to reduce model bias in drafts. | Refer to the skill for authoring any specification artifact in the rule section of 'openspec/config.yaml'. |
+| `grill-me` | `.agents/skills/` | Interrogates plans and designs with probing questions to surface hidden assumptions. | Refer to this skill under rules section in `openspec/config.yaml`. |
+| `c4-diagrams` | `.agents/skills/` | Visualises system architecture using C4 model levels in ASCII or Mermaid. | Refer to this skill under `design` rule in `openspec/config.yaml`. |
+| `architectural-decision-records` | `.agents/skills/` | Captures architectural decisions with rationale, tradeoffs, and supersession chains. | Automatically invoked or can be explicilty referred to under `adr` rule in `openspec/config.yaml`. |
+| `gherkin-authoring` | `.agents/skills/` | Drafts and improves Gherkin scenarios for observable, domain-language behaviour. | Required by `spec-as-source` during the `specs` phase. |
+| `glossary` | `.agents/skills/` | Maintains business and technical terminology and companion glossary references for specification artifacts. | Can be referred to under `proposal` and/or `design` rule in `openspec/config.yaml`. |
+| `openspec-git-discipline` | `.agents/skills/` | Enforces that proposals reach `main` before apply, and implementation merges before archive. | Enabled through `AGENTS.md`. |
+| `spec-as-source` | `.agents/skills/` | Adds executable acceptance specifications to the intent-driven workflow. | Explicitly opt in by uncommenting both the `specs` and `tasks` rules in `openspec/config.yaml`. |
+| `acceptance-test-authoring` | `.agents/skills/` | Configures the acceptance runner, extraction, linting, and step definitions for `spec-as-source`. | Required by `spec-as-source` when configuring or changing acceptance-test infrastructure. |
+
+Example configurations are available in 'openspec/config.yaml' and 'AGENTS.md'. You can comment/uncomment the skill references to enable them.
+
+## Experimental: Spec As Source
+
+`spec-as-source` is not a separate workflow. It is an opt-in layer on the intent-driven schema that uses fenced Gherkin in OpenSpec specifications as the source for generating acceptance tests. To enable `spec-as-source` capability add the skill reference under both the `specs` and `tasks` rules in `openspec/config.yaml`.
+
+During `specs`, `spec-as-source` requires `gherkin-authoring` to author the fenced Gherkin scenarios. During `tasks`, it replaces the standard task template with acceptance-test-first work: configure and run the acceptance suite, then implement application work. Use `acceptance-test-authoring` to configure the runner, extraction, linting, and step definitions that execute the specifications. See [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/).
+
+## Further Reading
+
+- Template overview: [Spec-Driven Development with OpenSpec and OpenCode](https://intent-driven.dev/blog/2026/05/10/spec-driven-development-openspec-opencode/)
+- Schema customization: [OpenSpec Custom Schemas](https://intent-driven.dev/blog/2026/02/12/openspec-custom-schemas/)
+- Durable architecture: [Architectural Decision Records with Spec-Driven Development using OpenSpec](https://intent-driven.dev/blog/2026/04/29/spec-driven-development-with-adr/)
+- Multi-model review and glossary: [SDD with Multi-Model Spec Review and Glossary](https://intent-driven.dev/blog/2026/06/27/sdd-adversarial-authoring-glossary/)
+- Parallel implementation: [OpenSpec, Git WorkTrees and OpenCode](https://intent-driven.dev/blog/2026/04/01/openspec-git-worktrees-opencode/)
+- Executable specifications: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/)
+- Brownfield adoption: [Spec-Driven Development with Brownfield Projects](https://intent-driven.dev/blog/2026/03/10/spec-driven-development-brownfield/)
 
 ## Agents
 
