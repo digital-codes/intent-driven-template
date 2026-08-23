@@ -39,8 +39,11 @@ Read and understand https://raw.githubusercontent.com/intent-driven-dev/intent-d
 - OpenCode skills for repeatable collaboration and implementation workflows,
   including C4 diagrams, ADR authoring, and OpenSpec lifecycle commands.
 - Superpowers from https://github.com/obra/superpowers for guided practices such
-  as brainstorming, planning, debugging, TDD, verification, worktrees, and
+  as brainstorming, planning, debugging, verification, worktrees, and
   subagent-driven parallel work.
+- A bundled `test-driven-development` skill plus `senior-dev` and `senior-qa`
+  subagents in `.opencode/agent/` for test-first implementation and
+  acceptance-test work, routed via the `context` block in `openspec/config.yaml`.
 - A `grill-me` style of rigorous design interrogation, inspired by
   https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md.
 - ADRs for durable architectural decisions.
@@ -86,6 +89,7 @@ Standard OpenSpec lifecycle skills in `.opencode/skills/` — names are self-exp
 | `openspec-git-discipline` | `.agents/skills/` | Enforces that proposals reach `main` before apply, and implementation merges before archive. | Enabled through `AGENTS.md`. |
 | `spec-as-source` | `.agents/skills/` | Adds executable acceptance specifications to the intent-driven workflow. | Explicitly opt in by uncommenting both the `specs` and `tasks` rules in `openspec/config.yaml`. |
 | `acceptance-test-authoring` | `.agents/skills/` | Configures the acceptance runner, extraction, linting, and step definitions for `spec-as-source`. | Required by `spec-as-source` when configuring or changing acceptance-test infrastructure. |
+| `test-driven-development` | `.agents/skills/` | Guides strict red-green-refactor TDD: one behaviour per test, minimal implementation to pass, refactoring on green, with best-practice patterns and collaborator mocking guidance. | Loaded by the `senior-dev` agent in `.opencode/agent/senior-dev.md`; enable by uncommenting the `context` lines in `openspec/config.yaml` that route src work to `senior-dev`. |
 
 Example configurations are available in `openspec/config.yaml` and `AGENTS.md`. You can comment/uncomment the skill references to enable them.
 
@@ -113,3 +117,5 @@ Specialist agents used within skills, in `.opencode/agent/`:
 |-------|---------|
 | `adversarial-author` | Writes an initial draft of a specification artifact or design document. |
 | `adversarial-reviewer` | Reviews the author's draft with challenges and improvement suggestions. |
+| `senior-dev` | Implements src work test-first through strict red-green-refactor, following the `test-driven-development` skill. |
+| `senior-qa` | Authors acceptance tests, step definitions, and runner configuration, following the `acceptance-test-authoring` skill. |
