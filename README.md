@@ -41,6 +41,8 @@ Read and understand https://raw.githubusercontent.com/intent-driven-dev/intent-d
 - Superpowers from https://github.com/obra/superpowers for guided practices such
   as brainstorming, planning, debugging, verification, worktrees, and
   subagent-driven parallel work.
+- Superpowers can be disabled by removing the `superpowers@git+https://github.com/obra/superpowers.git`
+  entry from the `plugin` array in `opencode.json`, then restarting OpenCode.
 - A bundled `test-driven-development` skill plus `senior-dev` and `senior-qa`
   subagents in `.opencode/agent/` for test-first implementation and
   acceptance-test work, routed via the `context` block in `openspec/config.yaml`.
@@ -106,8 +108,9 @@ During `specs`, `spec-as-source` requires `gherkin-authoring` to author the fenc
 - Durable architecture: [Architectural Decision Records with Spec-Driven Development using OpenSpec](https://intent-driven.dev/blog/2026/04/29/spec-driven-development-with-adr/)
 - Multi-model review and glossary: [SDD with Multi-Model Spec Review and Glossary](https://intent-driven.dev/blog/2026/06/27/sdd-adversarial-authoring-glossary/)
 - Parallel implementation: [OpenSpec, Git WorkTrees and OpenCode](https://intent-driven.dev/blog/2026/04/01/openspec-git-worktrees-opencode/)
-- Executable specifications: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/)
+- Spec-As-Source Spec-Driven Development: [Behavior-Driven Development and Spec-Driven Development with OpenSpec](https://intent-driven.dev/blog/2026/07/17/behavior-driven-development-sdd-openspec/)
 - Brownfield adoption: [Spec-Driven Development with Brownfield Projects](https://intent-driven.dev/blog/2026/03/10/spec-driven-development-brownfield/)
+- SDD + BDD + TDD: [How TDD and BDD Actually Fit Into Spec-Driven Development](https://intent-driven.dev/blog/2026/08/23/tdd-bdd-spec-driven-development/)
 
 ## Agents
 
